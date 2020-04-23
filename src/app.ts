@@ -11,6 +11,18 @@ function Autobind(_: any, _2: string, descriptor: PropertyDescriptor) {
   return adjDescriptor
 }
 
+// My solution for gathering user input
+class UserInputs {
+  title: string
+  description: string
+  people: number
+
+  constructor(t: string, d: string, p: number) {
+    this.title = t
+    this.description = d
+    this.people = p
+  }
+}
 class ProjectInput {
   templateElement: HTMLTemplateElement
   hostElement: HTMLDivElement
@@ -46,7 +58,14 @@ class ProjectInput {
   @Autobind
   private submitHandler(event: Event) {
     event.preventDefault()
-    console.log(this.titleInputElement.value)
+    // My solution for gathering user input
+    const titleValue = this.titleInputElement.value
+    const descriptionValue = this.descriptionInputElement.value
+    const peopleValue = +this.peopleInputElement.value
+
+    const userInputs = new UserInputs(titleValue, descriptionValue, peopleValue)
+
+    console.log(userInputs)
   }
 
   private configure() {
