@@ -11,18 +11,18 @@ function Autobind(_: any, _2: string, descriptor: PropertyDescriptor) {
   return adjDescriptor
 }
 
-// My solution for gathering user input
-class UserInputs {
-  title: string
-  description: string
-  people: number
+// // My solution for gathering user input
+// class UserInputs {
+//   title: string
+//   description: string
+//   people: number
 
-  constructor(t: string, d: string, p: number) {
-    this.title = t
-    this.description = d
-    this.people = p
-  }
-}
+//   constructor(t: string, d: string, p: number) {
+//     this.title = t
+//     this.description = d
+//     this.people = p
+//   }
+// }
 class ProjectInput {
   templateElement: HTMLTemplateElement
   hostElement: HTMLDivElement
@@ -55,17 +55,47 @@ class ProjectInput {
     this.attach()
   }
 
+  private getherUserInput(): [string, string, number] | void {
+    const enteredTitle = this.titleInputElement.value
+    const enteredDescription = this.descriptionInputElement.value
+    const enteredPeople = this.peopleInputElement.value
+
+    if (
+      enteredTitle.trim().length === 0 ||
+      enteredDescription.trim().length === 0 ||
+      enteredPeople.trim().length === 0
+    ) {
+      alert('Invalid input, please try again!')
+      return
+    } else {
+      return [enteredTitle, enteredDescription, +enteredPeople]
+    }
+  }
+
+  private clearInputs() {
+    this.titleInputElement.value = ''
+    this.descriptionInputElement.value = ''
+    this.peopleInputElement.value = ''
+  }
+
   @Autobind
   private submitHandler(event: Event) {
     event.preventDefault()
-    // My solution for gathering user input
-    const titleValue = this.titleInputElement.value
-    const descriptionValue = this.descriptionInputElement.value
-    const peopleValue = +this.peopleInputElement.value
+    const userInput = this.getherUserInput()
+    if (Array.isArray(userInput)) {
+      const [title, desc, people] = userInput
+      console.log(title, desc, people)
+      this.clearInputs()
+    }
 
-    const userInputs = new UserInputs(titleValue, descriptionValue, peopleValue)
+    // // My solution for gathering user input
+    // const titleValue = this.titleInputElement.value
+    // const descriptionValue = this.descriptionInputElement.value
+    // const peopleValue = +this.peopleInputElement.value
 
-    console.log(userInputs)
+    // const userInputs = new UserInputs(titleValue, descriptionValue, peopleValue)
+
+    // console.log(userInputs)
   }
 
   private configure() {
